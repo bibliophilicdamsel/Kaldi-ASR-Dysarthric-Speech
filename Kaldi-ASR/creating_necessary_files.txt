@@ -1,0 +1,30 @@
+mkdir -p exp
+mkdir -p data
+                    
+cd data
+mkdir -p train
+mkdir -p lang
+mkdir -p local
+                    
+cd data/local
+mkdir -p lang
+
+The files in data/train contain information regarding the specifics of the audio files, transcripts, and speakers. Specifically, it will contain the following files:
+
+-text
+-segments
+-wav.scp
+-utt2spk
+-spk2utt
+
+1. text will contain the utterance by utterance transcript of the corpus and will have the format: UTTERANCE_ID word1 word2 word3
+2. wav.scp contains the location for each of the audio files: format- file_id path_of_file
+3. utt2spk contains the mapping of each utterance to the respective speaker and will have the format: UTTERANCE_ID SPEAKER_ID
+4. spk2utt contains the speaker to utterance mapping and will have the format: SPEAKER_ID UTTERANCE_ID
+
+Create files for data/local/dict/
+-lexicon.txt
+-nonsilence_phones.txt
+-optional_silence.txt
+-silence_phones.txt
+-extra_questions.txt 

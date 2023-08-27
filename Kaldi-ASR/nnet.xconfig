@@ -1,0 +1,13 @@
+input dim=100 name=ivector
+input dim=40 name=input
+#fixed-affine-layer name=lda input=Append(-1,0,1,ReplaceIndex(ivector,t,0)) dim=360 affine-transform-file=exp/mono_nnet2/lda.mat 
+fixed-affine-layer name=lda input=Append(-4,-3,-2,-1,0,1,2,3,4,ReplaceIndex(ivector,t,0)) dim=460 affine-transform-file=exp/mono_nnet2/lda.mat 
+#fixed-affine-layer name=lda input=Append(-1,0,1,ReplaceIndex(ivector,t,0)) dim=460 affine-transform-file=exp/mono_nnet2/lda.mat 
+#relu-renorm-layer name=affine1 dim=460
+#relu-renorm-layer name=affine2 dim=460 input=Append(-1,0,1,2)
+#relu-renorm-layer name=affine3 dim=460 input=Append(-3,0,3)
+#relu-renorm-layer name=affine4 dim=460 input=Append(-3,0,3)
+#relu-renorm-layer name=affine5 dim=460 input=Append(-3,0,3)
+#relu-renorm-layer name=affine6 dim=460 input=Append(-6,-3,0)
+#relu-renorm-layer name=prefinal-chain dim=460 target-rms=0.5
+output-layer name=output dim=368 input=Append(-1,0,1)
