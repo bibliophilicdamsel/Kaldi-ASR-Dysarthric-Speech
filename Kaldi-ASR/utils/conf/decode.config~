@@ -1,0 +1,4 @@
+# Use wider-than-normal decoding beams for RM.
+first_beam=12.0
+beam=16.0
+lattice_beam=8.0

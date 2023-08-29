@@ -1,0 +1,6 @@
+sample_frequency=16000
+use_energy=false   # only non-default option.
+frame_length=16 
+frame_shift=8
+num_bins=40
+num_ceps=40 
