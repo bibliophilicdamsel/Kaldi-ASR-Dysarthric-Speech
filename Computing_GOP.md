@@ -336,4 +336,4 @@ m	5.611898
 
 For any insights into the algorithm proposed by Professor Sweeker Sudhakara and team, you may check their paper out or visit their Github page at [sweekarsud](https://github.com/sweekarsud/Goodness-of-Pronunciation/tree/master) where the authors have made their code accessible for public use.
 
-Happy Kaldi-ing.
+Happy Kaldi-ing!
