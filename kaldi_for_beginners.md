@@ -32,12 +32,12 @@ extras/check_dependencies.sh
 ```
 If the above snippet returns **all ok**, then proceed with running the further lines of code. If not, install the required dependencies using `sudo apt-get` _dependencyname_.
 
-Also, Intel MKL libraries might not have been installed in some of the systems. So, run `extras/install_mkl.sh.Next, check for the number of processes your system supports by typinh `nproc` in the command window. Let's say the number of processes your system supports is 4. Then, run `make -j 4` for the tools directory.
+Also, Intel MKL libraries might not have been installed in some of the systems. So, run `extras/install_mkl.sh.` Next, check for the number of processes your system supports by typinh `nproc` in the command window. Let's say the number of processes your system supports is 4. Then, run `make -j 4` for the tools directory.
 
 **Note:**
 *If you are running on a Fedora Linux environment, trying to intall intel mkl libraries might not work because of a compatibility issue on the side of Intel developers*
 
-In majority of the cases, running `make` would return with a warning that states that **IRSTLM is not installed by default anymore**. So, to waive that warning off (as IRSTLM is necessary to build the language model required), run `extras/install_rstlm.sh`.
+In majority of the cases, running `make` would return with a warning that states that **IRSTLM is not installed by default anymore**. So, to waive that warning off (as IRSTLM is necessary to build the language model required), run `extras/install_irstlm.sh`.
 
 Once done, run the subsequent code snippet
 ```
