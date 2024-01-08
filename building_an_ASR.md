@@ -73,6 +73,7 @@ if [ -f path.sh ]; then . ./path.sh; fi
 train_dir=newwave/train
 test_dir=newwave/test
 dir=wave_text
+mkdir -p $dir
 tmpdir=$(mktemp -d /tmp/kaldi.XXXX);
 ls -d newwave/train/ | sed -e "s:^.*/::" > $tmpdir/train_spk
 ls -d newwave/test/ | sed -e "s:^.*/::" > $tmpdir/test_spk
