@@ -380,7 +380,7 @@ Majority of the datasets use 40-dimensional MFCC features. However, iVector feat
 
 # detect voice activity in the speech 
 ./steps/compute_vad_decision.sh --nj 4 data/train exp/make_vad/train vad
-./steps/compute_vad_decision.sh --nj 2 data/train exp/make_vad/test vad
+./steps/compute_vad_decision.sh --nj 2 data/test exp/make_vad/test vad
 ```
 
 ### Monophone Training
