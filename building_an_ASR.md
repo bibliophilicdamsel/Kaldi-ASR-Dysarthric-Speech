@@ -385,7 +385,7 @@ Majority of the datasets use 40-dimensional MFCC features. However, iVector feat
 
 ### Monophone Training
 ```
-./steps/train_mono.sh --nj 12 --totgauss 1500 --cmd run.pl data/train data/lang_test_bg exp/mono
+./steps/train_mono.sh --nj 12 --cmd run.pl data/train data/lang_test_bg exp/mono
 ```
 **Construct Graph**
 ```
@@ -393,7 +393,7 @@ Majority of the datasets use 40-dimensional MFCC features. However, iVector feat
 ```
 **Decode**
 ```
-./steps/decode.sh --config conf/decode.config --nj 2 --cmd run.pl --lattice_beam 1 exp/mono/graph data/test exp/mono/decode
+./steps/decode.sh --config conf/decode.config --nj 2 --cmd run.pl exp/mono/graph data/test exp/mono/decode
 ```
 
 While decoding, it is better to stick with a *lattice-beam* size of 1 and keep the *acoustic-weight (acwt)* parameter low to increase the dependency on the language model for a lower WER, translating to a better accuracy. 
@@ -407,7 +407,7 @@ To display all the WER for easier comparison and inference making, run `cat exp/
 
 ### Triphone Training
 ```
-./steps/train_deltas.sh --cmd run.pl --config conf/mfcc.conf 2500 12000 data/train data/lang exp/mono_ali exp/tri
+./steps/train_deltas.sh --cmd run.pl --config conf/mfcc.conf 1000 10000 data/train data/lang exp/mono_ali exp/tri
 ```
 **Construct Graph**
 ```
@@ -415,7 +415,7 @@ To display all the WER for easier comparison and inference making, run `cat exp/
 ```
 **Decode**
 ```
-./steps/decode.sh --config conf/decode.config --nj 2 --cmd run.pl --lattice_beam 1 exp/tri/graph data/test exp/tri/decode
+./steps/decode.sh --config conf/decode.config --nj 2 --cmd run.pl exp/tri/graph data/test exp/tri/decode
 ```
 
 To display all the WER for easier comparison and inference making, run `cat exp/tri/decode/wer_* | grep "WER" | sort -n > exp/tri/WER.txt`
