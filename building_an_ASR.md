@@ -504,8 +504,10 @@ Finally, copy cmvn_stats, splice_opts, final.mdl, and final.mat files from the L
 
 ### NNET2 Training
 ```
-./steps/nnet2/train_tanh.sh --config ./conf/mfcc.conf --initial-learning-rate 0.04 --final-learning-rate 0.004 --num-jobs-nnet 12 --num-hidden-layers 1 --num-epochs 5 --hidden-layer-dim 1024 --cmd run.pl data/train data/lang exp/mono2_ali exp/mono_nnet2
+./steps/nnet2/train_tanh.sh --config ./conf/mfcc.conf --initial-learning-rate 0.035 --final-learning-rate 0.004 --num-jobs-nnet 12 --num-hidden-layers 1 --num-epochs 10 --hidden-layer-dim 256 --cmd run.pl data/train data/lang exp/mono2_ali exp/mono_nnet2
 ```
+
+Alter the parameters like learning rate, hidden layer dimension, number of hidden layers, and number of epochs depending upon your dataset
 
 **Decode**
 ```
