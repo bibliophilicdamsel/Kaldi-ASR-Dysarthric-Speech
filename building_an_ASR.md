@@ -178,11 +178,15 @@ done
 	sort -o wave_text/speakerID_train{,}
 	sort -o wave_text/speakerID_test{,}
 	
-	for x in train test
-	do
-	sed 's;MER;/home/bibliophildamsel/kaldi/egs/MER_severe_base/newwave/train/MER;g' wave_text/speakerID_$x > wave_text/${x}_wavelist
-	sed -i 's/$/.wav/g' wave_text/${x}_wavelist
-	done
+	#for x in train test
+ 	sed 's;FC01;/home/balasurya/kaldi/egs/FC01_normal/newwave/train/FC01;g' wave_text/speakerID_train > wave_text/train_wavelist
+	sed 's;FC01;/home/balasurya/kaldi/egs/FC01_normal/newwave/test/FC01;g' wave_text/speakerID_test > wave_text/test_wavelist
+	sed -i 's/$/.wav/g' wave_text/train_wavelist
+	sed -i 's/$/.wav/g' wave_text/test_wavelist
+	#do
+	#sed 's;MER;/home/bibliophildamsel/kaldi/egs/MER_severe_base/newwave/train/MER;g' wave_text/speakerID_$x > wave_text/${x}_wavelist
+	#sed -i 's/$/.wav/g' wave_text/${x}_wavelist
+	#done
 	paste wave_text/speakerID_train wave_text/train_wavelist > data/train/wav.scp
 	paste wave_text/speakerID_test wave_text/test_wavelist > data/test/wav.scp
 	sed -i 's/\t/ /g' data/train/wav.scp
