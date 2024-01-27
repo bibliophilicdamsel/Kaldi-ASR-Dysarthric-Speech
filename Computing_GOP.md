@@ -46,7 +46,7 @@ To extract the frame level posterior probabilities of the learner's uttered spee
 
 	mkdir -p exp/compute_gop
 	nnet-am-compute --apply-log=true exp/nnet2_ali/final.mdl \
-	scp:data/train/feats.scp ark,t:exp/posterior_infile.ark
+	scp:data/train/feats.scp ark,t:exp/compute_gop/posterior_infile.ark
 
 	echo "DONE"
 	```
