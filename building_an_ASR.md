@@ -389,7 +389,7 @@ Majority of the datasets use 40-dimensional MFCC features. However, iVector feat
 
 ### Monophone Training
 ```
-./steps/train_mono.sh --nj 12 --cmd run.pl data/train data/lang_test_bg exp/mono
+./steps/train_mono.sh --nj 12 --cmd run.pl --config conf/mfcc.conf data/train data/lang_test_bg exp/mono
 ```
 **Construct Graph**
 ```
@@ -430,7 +430,7 @@ To display all the WER for easier comparison and inference making, run `cat exp/
 ```
 ### Triphone + LDA-MLLT Training
 ```
-./steps/train_lda_mllt.sh --cmd run.pl 3000 20000 data/train data/lang exp/tri_ali exp/tri1
+./steps/train_lda_mllt.sh --cmd run.pl 3000 20000 --config conf/mfcc.conf data/train data/lang exp/tri_ali exp/tri1
 ```
 
 **Construct Graph**
