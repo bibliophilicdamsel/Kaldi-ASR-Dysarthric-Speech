@@ -428,44 +428,44 @@ To display all the WER for easier comparison and inference making, run `cat exp/
 ```
 ./steps/align_si.sh --nj 12 --cmd run.pl --use-graphs true data/train data/lang exp/tri exp/tri_ali
 ```
-### Monophone + LDA-MLLT Training
+### Triphone + LDA-MLLT Training
 ```
-./steps/train_lda_mllt.sh --cmd run.pl 3000 20000 data/train data/lang exp/mono_ali exp/mono1
+./steps/train_lda_mllt.sh --cmd run.pl 3000 20000 data/train data/lang exp/tri_ali exp/tri1
 ```
 
 **Construct Graph**
 ```
-./utils/mkgraph.sh data/lang_test_bg exp/mono1 exp/mono1/graph
+./utils/mkgraph.sh data/lang_test_bg exp/tri1 exp/tri1/graph
 ```
 
 **Decode**
 ```
-./steps/decode.sh --config conf/decode.config --nj 2 --cmd run.pl --lattice_beam 1 exp/mono1/graph data/test exp/mono1/decode
+./steps/decode.sh --config conf/decode.config --nj 2 --cmd run.pl exp/tri1/graph data/test exp/tri1/decode
 ```
 
-To display all the WER for easier comparison and inference making, run `cat exp/mono1/decode/wer_* | grep "WER" | sort -n > exp/mono1/WER.txt`
+To display all the WER for easier comparison and inference making, run `cat exp/tri1/decode/wer_* | grep "WER" | sort -n > exp/tri1/WER.txt`
 
 **Align Graph**
 ```
-./steps/align_si.sh --nj 12 --cmd run.pl --use-graphs true data/train data/lang exp/mono1 exp/mono1_ali
+./steps/align_si.sh --nj 12 --cmd run.pl --use-graphs true data/train data/lang exp/tri1 exp/tri1_ali
 ```
-### Monophone + LDA-MLLT + SAT Training
+### Triphone + LDA-MLLT + SAT Training
 ```
-./steps/train_sat.sh --cmd run.pl --config ./conf/mfcc.conf 4000 16000 data/train data/lang exp/mono1_ali exp/mono2
+./steps/train_sat.sh --cmd run.pl --config ./conf/mfcc.conf 4000 16000 data/train data/lang exp/tri1_ali exp/tri2
 ```
 **Construct Graph**
 ```
-./utils/mkgraph.sh data/lang_test_bg exp/mono2 exp/mono2/graph
+./utils/mkgraph.sh data/lang_test_bg exp/tri2 exp/tri2/graph
 ```
 **Decode**
 ```
-./steps/decode_fmllr.sh --nj 2 --cmd run.pl --lattice-beam 1 exp/mono2/graph data/test exp/mono2/decode_test
+./steps/decode_fmllr.sh --nj 2 --cmd run.pl exp/tri2/graph data/test exp/tri2/decode_test
 ```
-To display all the WER for easier comparison and inference making, run `cat exp/mono2/decode_test/wer_* | grep "WER" | 
+To display all the WER for easier comparison and inference making, run `cat exp/tri2/decode_test/wer_* | grep "WER" | 
 
 **Align Graph**
 ```
-steps/align_fmllr.sh --nj 12 --cmd run.pl --use-graphs true data/train data/lang exp/mono2 exp/mono2_ali
+steps/align_fmllr.sh --nj 12 --cmd run.pl --use-graphs true data/train data/lang exp/tri2 exp/tri2_ali
 ```
 ### Extraction of iVector Features
 1. **Constructing a diagonal UBM (dubm)**
@@ -503,26 +503,26 @@ Finally, copy cmvn_stats, splice_opts, final.mdl, and final.mat files from the L
 3. **Extracting iVector features of dimension 100**
 ```
 ./steps/online/nnet2/extract_ivectors_online.sh --nj 4 --config conf/mfcc.conf --num-gselect 5 --ivector-period 12 --use-vad true --cmd run.pl data/train exp/extractor exp/make_ivectors/train
-./steps/online/nnet2/extract_ivectors_online.sh --nj 2 --config conf/mfcc.conf --num-gselect 5 --ivector-period 12 --use-vad true --cmd run.pl data/train exp/extractor exp/make_ivectors/test
+./steps/online/nnet2/extract_ivectors_online.sh --nj 2 --config conf/mfcc.conf --num-gselect 5 --ivector-period 12 --use-vad true --cmd run.pl data/test exp/extractor exp/make_ivectors/test
 ```
 
 ### NNET2 Training
 ```
-./steps/nnet2/train_tanh.sh --config ./conf/mfcc.conf --initial-learning-rate 0.035 --final-learning-rate 0.004 --num-jobs-nnet 12 --num-hidden-layers 1 --num-epochs 10 --hidden-layer-dim 256 --cmd run.pl data/train data/lang exp/mono2_ali exp/mono_nnet2
+./steps/nnet2/train_tanh.sh --config ./conf/mfcc.conf --initial-learning-rate 0.035 --final-learning-rate 0.004 --num-jobs-nnet 12 --num-hidden-layers 1 --num-epochs 10 --hidden-layer-dim 256 --cmd run.pl data/train data/lang exp/tri_ali exp/nnet2
 ```
 
 Alter the parameters like learning rate, hidden layer dimension, number of hidden layers, and number of epochs depending upon your dataset
 
 **Decode**
 ```
-./steps/nnet2/decode.sh --cmd run.pl --lattice-beam 1 --nj 2 --config conf/decode.config exp/mono2/graph data/test exp/mono_nnet2/decode_test
+./steps/nnet2/decode.sh --cmd run.pl --lattice-beam 1 --nj 2 --config conf/decode.config exp/tri1/graph data/test exp/nnet2/decode_test
 ```
 
-To display all the WER for easier comparison and inference making, run `cat exp/mono_nnet2/decode_test/wer_* | grep "WER" | sort -n > exp/mono_nnet2/WER.txt`
+To display all the WER for easier comparison and inference making, run `cat exp/nnet2/decode_test/wer_* | grep "WER" | sort -n > exp/nnet2/WER.txt`
 
 **Align Graph**
 ```
-./steps/nnet2/align.sh –nj 12 data/train data/lang exp/mono_nnet2 exp/nnet2_ali
+./steps/nnet2/align.sh –nj 12 data/train data/lang exp/nnet2 exp/nnet2_ali
 ```
 ### NNET3 Training
 Commonly used these days in Kaldi, NNET3 models are Kaldi's developer, Dan Povey's Deep Neural Network recipes that offer space for better performance accuracy with option to work around with various layers and performance enhancing input nodes.
