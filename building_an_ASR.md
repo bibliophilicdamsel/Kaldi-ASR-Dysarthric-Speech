@@ -508,7 +508,7 @@ Finally, copy cmvn_stats, splice_opts, final.mdl, and final.mat files from the L
 
 ### NNET2 Training
 ```
-./steps/nnet2/train_tanh.sh --config ./conf/mfcc.conf --initial-learning-rate 0.035 --final-learning-rate 0.004 --num-jobs-nnet 12 --num-hidden-layers 1 --num-epochs 10 --hidden-layer-dim 256 --cmd run.pl data/train data/lang exp/tri_ali exp/nnet2
+./steps/nnet2/train_tanh.sh --config ./conf/mfcc.conf --initial-learning-rate 0.035 --final-learning-rate 0.004 --num-jobs-nnet 12 --num-hidden-layers 1 --num-epochs 10 --hidden-layer-dim 256 --cmd run.pl data/train data/lang exp/tri1_ali exp/nnet2
 ```
 
 Alter the parameters like learning rate, hidden layer dimension, number of hidden layers, and number of epochs depending upon your dataset
@@ -537,18 +537,18 @@ num_targets=$(<exp/mono2/graph/num_pdfs)
 if [ -f path.sh ]; then . ./path.sh; fi
 . parse_options.sh || exit 1;
 
-mkdir -p exp/mono_nnet3/configs
+mkdir -p exp/nnet3/configs
 
 #defining the xconfig file
 cat <<EOF > nnet.xconfig
 input dim=100 name=ivector
 input dim=40 name=input
-fixed-affine-layer name=lda input=Append(-4,-3,-2,-1,0,1,2,3,4,ReplaceIndex(ivector,t,0)) dim=460 affine-transform-file=exp/mono_nnet2/lda.mat 
+fixed-affine-layer name=lda input=Append(-4,-3,-2,-1,0,1,2,3,4,ReplaceIndex(ivector,t,0)) dim=460 affine-transform-file=exp/nnet2/lda.mat 
 output-layer name=output dim=$num_targets input=Append(-1,0,1)
 EOF
 
-python3 ./steps/nnet3/xconfig_to_configs.py --xconfig-file nnet.xconfig --config-dir exp/mono_nnet3/configs
-python3 ./steps/nnet3/xconfig_to_configs.py --xconfig-file nnet.xconfig --config-dir exp/mono_nnet3
+python3 ./steps/nnet3/xconfig_to_configs.py --xconfig-file nnet.xconfig --config-dir exp/nnet3/configs
+python3 ./steps/nnet3/xconfig_to_configs.py --xconfig-file nnet.xconfig --config-dir exp/nnet3
 
 echo "DONE"
 ```
@@ -565,7 +565,7 @@ python3 ./steps/nnet3/train_dnn.py --feat.online-ivector-dir exp/make_ivectors/t
 	--trainer.num-epochs 5 \
 	--trainer.optimization.initial-effective-lrate 0.04 --trainer.optimization.final-effective-lrate 0.004 \
 	--trainer.compute-per-dim-accuracy true --cmd run.pl --use-gpu no \
-	--feat-dir data/train --lang data/lang --ali-dir exp/mono2_ali --dir exp/mono_nnet3 || exit 1
+	--feat-dir data/train --lang data/lang --ali-dir exp/tri1_ali --dir exp/nnet3 || exit 1
 
 echo "DONE"
 ```
@@ -576,19 +576,19 @@ Run the scripts.
 ```
 **Construct Graph**
 ``` 
-./utils/mkgraph.sh data/lang_test_bg exp/mono_nnet3 exp/mono_nnet3/graph
+./utils/mkgraph.sh data/lang_test_bg exp/nnet3 exp/nnet3/graph
 ```
 
 **Decode**
 ```
-./steps/nnet3/decode.sh --cmd run.pl --lattice-beam 1 --nj 2 --online-ivector-dir exp/make_ivectors/test --use-gpu false --config conf/decode.config exp/mono_nnet3/graph data/test exp/mono_nnet3/decode_test
+./steps/nnet3/decode.sh --cmd run.pl --nj 2 --online-ivector-dir exp/make_ivectors/test --use-gpu false --config conf/decode.config exp/nnet3/graph data/test exp/nnet3/decode_test
 ```
 
 To display all the WER for easier comparison and inference making, run `cat exp/mono_nnet3/decode_test/wer_* | grep "WER" | sort -n > exp/mono_nnet3/WER.txt`.
 
 **Align Graph**
 ```
-./steps/nnet3/align.sh --cmd run.pl --nj 12 --use-gpu false --online-ivector-dir exp/make_ivectors/train data/train data/lang exp/mono_nnet3 exp/nnet3_ali
+./steps/nnet3/align.sh --cmd run.pl --nj 12 --use-gpu false --online-ivector-dir exp/make_ivectors/train data/train data/lang exp/nnet3 exp/nnet3_ali
 ```
 
 Also, if you have very less examples, say utterances in the range of 300-400, go to `./steps/nnet3/get_egs.sh` and change the number of utterances subset to 40-50 to facilitate deep neural network training even on smaller datasets. 
