@@ -411,7 +411,7 @@ To display all the WER for easier comparison and inference making, run `cat exp/
 
 ### Triphone Training
 ```
-./steps/train_deltas.sh --cmd run.pl --config conf/mfcc.conf 1000 10000 data/train data/lang exp/mono_ali exp/tri
+./steps/train_deltas.sh --cmd run.pl --config conf/mfcc.conf 2000 10000 data/train data/lang exp/mono_ali exp/tri
 ```
 **Construct Graph**
 ```
@@ -430,7 +430,7 @@ To display all the WER for easier comparison and inference making, run `cat exp/
 ```
 ### Triphone + LDA-MLLT Training
 ```
-./steps/train_lda_mllt.sh --cmd run.pl --config conf/mfcc.conf 3000 20000 data/train data/lang exp/tri_ali exp/tri1
+./steps/train_lda_mllt.sh --cmd run.pl --config conf/mfcc.conf 2500 15000 data/train data/lang exp/tri_ali exp/tri1
 ```
 
 **Construct Graph**
